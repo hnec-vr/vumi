@@ -296,8 +296,10 @@ class SmppTransceiverTransport(Transport):
         error_message = yield self.get_cached_message(message_id)
         command_status = command_status or 'Unspecified'
         if error_message is None:
-            log.warning(
-                "Could not retrieve failed message: %s", message_id)
+            # send the warning to Sentry
+            log.warning("Could not retrieve failed message")
+            # but log the message so we can find the message_id if needed
+            log.msg("Could not retrieve failed message: %s" % message_id)
         else:
             yield self.delete_cached_message(message_id)
             yield self.publish_nack(message_id, command_status)
@@ -362,8 +364,8 @@ class SmppTransceiverTransport(Transport):
         message = yield self.get_cached_message(message_id)
         if message is None:
             # We can't find this message, so log it and start again.
-            log.warning(
-                "Could not retrieve throttled message: %s", message_id)
+            log.warning("Could not retrieve throttled message")
+            log.msg("Could not retrieve throttled message: %s" % message_id)
             self.check_stop_throttling(0)
         else:
             # Try handle this message again and leave the rest to our
