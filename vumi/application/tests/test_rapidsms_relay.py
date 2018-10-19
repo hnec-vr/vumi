@@ -38,7 +38,7 @@ class TestRapidSMSRelay(VumiTestCase):
             'rapidsms_password': 'password',
             'vumi_username': vumi_username,
             'vumi_password': vumi_password,
-            'allowed_endpoints': ['default', '10010', '10020'],
+            'allowed_endpoints': ['default', '10010', '10020', '15015'],
         }
         if config:
             app_config.update(config)
@@ -270,7 +270,7 @@ class TestRapidSMSRelay(VumiTestCase):
         self.assertEqual(response.code, 400)
         self.assertEqual(response.delivered_body,
                          "Endpoint u'bar' not defined in list of allowed"
-                         " endpoints ['default', '10010', '10020']")
+                         " endpoints ['default', '10010', '10020', '15015']")
         [err] = self.flushLoggedErrors(BadRequestError)
 
     @inlineCallbacks
