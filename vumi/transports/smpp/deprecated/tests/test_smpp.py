@@ -438,7 +438,7 @@ class EsmeToSmscTestCase(VumiTestCase):
             mk_expected_pdu("inbound", 555, "deliver_sm_resp"),
         ]
 
-        ## Startup
+        # Startup
         yield self.startTransport()
         yield self.transport._block_till_bind
 
@@ -787,7 +787,7 @@ class TestDeliveryYo(EsmeToSmscTestCase):
     # "id:(?P<id>\S{,65}) +sub:(?P<sub>.{1,3}) +dlvrd:(?P<dlvrd>.{1,3})"
     # " +submit date:(?P<submit_date>\d*) +done date:(?P<done_date>\d*)"
     # " +stat:(?P<stat>[0-9,A-Z]{1,7}) +err:(?P<err>.{1,3})"
-    #" +[Tt]ext:(?P<text>.{,20}).*
+    # " +[Tt]ext:(?P<text>.{,20}).*
 
     DELIVERY_REPORT_REGEX = (
         "id:(?P<id>\S{,65})"
