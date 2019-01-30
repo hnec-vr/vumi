@@ -603,7 +603,7 @@ class EsmeTransceiver(Protocol):
             sequence_number = yield self.submit_sm(
                 vumi_message_id, destination_addr, short_message=split_msg[0],
                 **pdu_params)
-            returnValue([sequence_number])
+            returnValue(sequence_number)
         ref_num = yield self.sequence_generator.next()
         sequence_numbers = []
         for i, msg in enumerate(split_msg):

@@ -412,7 +412,7 @@ class EsmeTestCase(VumiTestCase):
             'send_multipart_udh': True,
         })
         short_message = 'This is a short message.'
-        seq_nums = yield protocol.submit_sm(
+        seq_nums = yield protocol.submit_csm_udh(
             'abc123', 'dest_addr', short_message=short_message)
         [submit_sm] = yield wait_for_pdus(transport, 1)
         # only 1 message is sent
