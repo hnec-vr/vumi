@@ -598,6 +598,12 @@ class EsmeTransceiver(Protocol):
 
         pdu_params = pdu_params.copy()
         split_msg = self.csm_split_message(pdu_params.pop('short_message'))
+        if len(split_msg) == 1:
+            # only 1 part, so just send the message without the UDH
+            sequence_number = yield self.submit_sm(
+                vumi_message_id, destination_addr, short_message=split_msg[0],
+                **pdu_params)
+            returnValue(sequence_number)
         ref_num = yield self.sequence_generator.next()
         sequence_numbers = []
         for i, msg in enumerate(split_msg):

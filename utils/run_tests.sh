@@ -13,5 +13,5 @@ rm results.txt
 echo "=== Processing coverage data..."
 coverage xml
 echo "=== Checking for PEP-8 violations..."
-pep8 --repeat vumi | tee pep8.txt
+flake8 vumi | tee pep8.txt
 echo "=== Done."

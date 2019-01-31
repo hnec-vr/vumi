@@ -406,6 +406,26 @@ class EsmeTestCase(VumiTestCase):
         self.assertEqual(['abc123'] * len(seq_numbers), stored_ids)
 
     @inlineCallbacks
+    def test_submit_sm_multipart_udh_short(self):
+        # if message doesn't need splitting, then don't use the UDH
+        transport, protocol = yield self.setup_bind(config={
+            'send_multipart_udh': True,
+        })
+        short_message = 'This is a short message.'
+        seq_nums = yield protocol.submit_csm_udh(
+            'abc123', 'dest_addr', short_message=short_message)
+        [submit_sm] = yield wait_for_pdus(transport, 1)
+        # only 1 message is sent
+        self.assertEqual(len(seq_nums), 1)
+        # assert that short_message is identical to what we sent
+        # (therefore no header was added)
+        self.assertCommand(submit_sm, 'submit_sm', params={
+            'short_message': short_message,
+        })
+        stored_ids = yield self.lookup_message_ids(protocol, seq_nums)
+        self.assertEqual(['abc123'], stored_ids)
+
+    @inlineCallbacks
     def test_udh_ref_num_limit(self):
         transport, protocol = yield self.setup_bind(config={
             'send_multipart_udh': True,
